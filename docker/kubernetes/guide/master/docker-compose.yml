@@ -1,0 +1,23 @@
+version: "2"
+services:
+    etcd:
+        image: elcolio/etcd
+        container_name: etcd_master
+        volumes:
+        -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
+        network_mode: host
+        command:
+        -   --advertise-client-urls=http://10.70.1.28:2379,http://10.70.1.28:4001
+        -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
+        -   --initial-advertise-peer-urls=http://10.70.1.28:2380
+        -   --listen-peer-urls=http://0.0.0.0:2380
+        -   --discovery=http://discovery.etcd.io/947ede23437a275be1521fe46764c9e1
+    apiserver:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        container_name: apiserver
+        network_mode: host
+        command:
+        -   /hyperkube
+        -   apiserver
+        -   --insecure-bind-address=0.0.0.0
+        -   --etcd_servers=http://127.0.0.1:4001

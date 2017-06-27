@@ -1,0 +1,14 @@
+version: "2"
+services:
+    etcd:
+        image: elcolio/etcd
+        container_name: etcd_slave
+        volumes:
+        -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
+        network_mode: host
+        command:
+        -   --advertise-client-urls=http://10.70.1.31:2379,http://10.70.1.31:4001
+        -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
+        -   --initial-advertise-peer-urls=http://10.70.1.31:2380
+        -   --listen-peer-urls=http://0.0.0.0:2380
+        -   --discovery=http://discovery.etcd.io/947ede23437a275be1521fe46764c9e1
