@@ -14,6 +14,7 @@ services:
         -   --initial-advertise-peer-urls=http://10.70.1.28:2380
         -   --listen-peer-urls=http://0.0.0.0:2380
         -   --discovery=http://discovery.etcd.io/6843917444cfbf6e48a99f3a8a3b5d30
+        -   --initial-cluster-state=new
     apiserver:
         image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
         container_name: apiserver
