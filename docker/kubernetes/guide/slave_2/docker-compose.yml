@@ -12,5 +12,5 @@ services:
         -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
         -   --initial-advertise-peer-urls=http://10.70.1.31:2380
         -   --listen-peer-urls=http://0.0.0.0:2380
-        -   --discovery=http://discovery.etcd.io/6843917444cfbf6e48a99f3a8a3b5d30
+        -   --discovery=http://discovery.etcd.io/2734d6ced01b2e58165f20db5d80fb72
         -   --initial-cluster-state=new

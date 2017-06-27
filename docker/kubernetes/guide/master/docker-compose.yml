@@ -4,7 +4,6 @@ services:
         image: elcolio/etcd
         container_name: etcd_master
         volumes:
-        -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
         -   ./.etcd:/data
         network_mode: host
         command:
@@ -13,7 +12,7 @@ services:
         -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
         -   --initial-advertise-peer-urls=http://10.70.1.28:2380
         -   --listen-peer-urls=http://0.0.0.0:2380
-        -   --discovery=http://discovery.etcd.io/6843917444cfbf6e48a99f3a8a3b5d30
+        -   --discovery=http://discovery.etcd.io/2734d6ced01b2e58165f20db5d80fb72
         -   --initial-cluster-state=new
     apiserver:
         image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
