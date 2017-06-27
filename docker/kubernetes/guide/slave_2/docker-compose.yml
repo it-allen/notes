@@ -4,6 +4,7 @@ services:
         image: elcolio/etcd
         volumes:
         -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
+        -   ./.etcd:/data
         network_mode: host
         command:
         -   --name=node-10.70.1.31
@@ -11,4 +12,4 @@ services:
         -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
         -   --initial-advertise-peer-urls=http://10.70.1.31:2380
         -   --listen-peer-urls=http://0.0.0.0:2380
-        -   --discovery=http://discovery.etcd.io/16a6e3e90bba8510375e7b040c2c42a5
+        -   --discovery=http://discovery.etcd.io/6843917444cfbf6e48a99f3a8a3b5d30
