@@ -7,11 +7,12 @@ services:
         -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
         network_mode: host
         command:
+        -   --name=node-10.70.1.28
         -   --advertise-client-urls=http://10.70.1.28:2379,http://10.70.1.28:4001
         -   --listen-client-urls=http://0.0.0.0:2379,http://0.0.0.0:4001
         -   --initial-advertise-peer-urls=http://10.70.1.28:2380
         -   --listen-peer-urls=http://0.0.0.0:2380
-        -   --discovery=http://discovery.etcd.io/69bdae5caea0a0dd7aa8638071b45287
+        -   --discovery=http://discovery.etcd.io/16a6e3e90bba8510375e7b040c2c42a5
     apiserver:
         image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
         container_name: apiserver
