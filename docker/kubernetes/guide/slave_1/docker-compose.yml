@@ -2,7 +2,6 @@ version: "2"
 services:
     etcd:
         image: elcolio/etcd
-        container_name: etcd_slave
         volumes:
         -   /usr/share/ca-certificates/:/etc/ssl/certs:ro
         network_mode: host
