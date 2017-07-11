@@ -5,7 +5,7 @@
 $ ssh-keygen -t rsa [-C 'demo']
 Enter file in which to save the key (/home/demo/.ssh/id_rsa): <可以改名>
 Enter passphrase (empty for no passphrase): <可以为密钥文件设密码>
-`` 
+``` 
 这样可以生成以下两个文件
 ```sh
 -rw-------  1 hyku  staff  1675  2 13 14:40 id_rsa
