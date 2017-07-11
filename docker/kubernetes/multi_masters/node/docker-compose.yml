@@ -1,0 +1,38 @@
+version: "2"
+services:
+    kubelet:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        container_name: kubelet
+        network_mode: host
+        pid: host
+        # privileged 用于给容器权限，不然 会报这个错
+        # skipping pod synchronization - [Failed to start ContainerManager [open /proc/sys/vm/overcommit_memory: read-only file system, open /proc/sys/kernel/panic: read-only file system, open /proc/sys/kernel/panic_on_oops: read-only file system]]
+        privileged: true
+        volumes:
+            - /var/lib/docker/:/var/lib/docker:rw
+            - /:/rootfs:rw
+            - /sys:/sys:rw
+            - /var/run:/var/run
+            - /var/lib/kubelet:/var/lib/kubelet
+        command:
+            - /hyperkube
+            - kubelet
+            - --hostname-override=10.70.1.102
+            - --api-servers=http://10.70.1.101:8080
+            - --address=0.0.0.0
+            - --enable_server
+            - --logtostderr=true
+            - --v=2
+#            - --containerized=true
+    proxy:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        container_name: proxy
+        network_mode: host
+        privileged: true
+        command:
+            - /hyperkube
+            - proxy
+            - --master=http://10.70.1.101:8080
+            - --v=2
+            - --hostname-override=10.70.1.102
+
