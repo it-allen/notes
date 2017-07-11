@@ -104,9 +104,10 @@ scp -r /srv/kubernetes 10.70.1.32:/srv
 #### master 1
 
 ```sh
+export ETCD_VERSION=v3.0.7
 cd /tmp
-curl -L https://github.com/coreos/etcd/releases/download/v3.0.7/etcd-v3.0.7-linux-amd64.tar.gz -o etcd-v3.0.7-linux-amd64.tar.gz
-tar xzvf etcd-v3.0.7-linux-amd64.tar.gz && cd etcd-v3.0.7-linux-amd64
+curl -L https://github.com/coreos/etcd/releases/download/${ETCD_VERSION}/etcd-${ETCD_VERSION}-linux-amd64.tar.gz -o etcd-${ETCD_VERSION}-linux-amd64.tar.gz
+tar xzvf etcd-${ETCD_VERSION}-linux-amd64.tar.gz && cd etcd-${ETCD_VERSION}-linux-amd64
 
 mkdir -p /opt/etcd/bin
 mkdir -p /opt/etcd/config/

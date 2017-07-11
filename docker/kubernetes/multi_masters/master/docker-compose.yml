@@ -1,0 +1,31 @@
+version: '2'
+services:
+    apiserver:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        container_name: apiserver
+        network_mode: host
+        command:
+            - /hyperkube
+            - apiserver
+            - --service-cluster-ip-range=10.70.1.100/24
+            - --address=0.0.0.0
+            - --etcd_servers=http://10.70.1.100:4001
+            - --v=2
+    controller:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        network_mode: host
+        command:
+            - /hyperkube
+            - controller-manager
+            - --master=127.0.0.1:8080
+            - --v=2
+    scheduler:
+        image: quay.io/coreos/hyperkube:v1.6.6_coreos.1
+        container_name: scheduler
+        network_mode: host
+        command:
+            - /hyperkube
+            - scheduler
+            - --master=127.0.0.1:8080
+            - --v=2
+
