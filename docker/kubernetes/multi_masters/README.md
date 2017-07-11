@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [环境](#%E7%8E%AF%E5%A2%83)
+- [允许root ssh](#%E5%85%81%E8%AE%B8root-ssh)
+- [CA Certification](#ca-certification)
+- [Install master node](#install-master-node)
+    - [install etcd](#install-etcd)
+      - [master 1](#master-1)
+      - [master 2](#master-2)
+    - [设置flannel](#%E8%AE%BE%E7%BD%AEflannel)
+    - [安装kubernetes软件](#%E5%AE%89%E8%A3%85kubernetes%E8%BD%AF%E4%BB%B6)
+      - [直接装软件](#%E7%9B%B4%E6%8E%A5%E8%A3%85%E8%BD%AF%E4%BB%B6)
+      - [利用Docker运行Kubernetes](#%E5%88%A9%E7%94%A8docker%E8%BF%90%E8%A1%8Ckubernetes)
+- [Install worker node](#install-worker-node)
+    - [安装flannel(未成功)](#%E5%AE%89%E8%A3%85flannel%E6%9C%AA%E6%88%90%E5%8A%9F)
+      - [node 1.1 (10.70.1.31)](#node-11-1070131)
+    - [kubernetes](#kubernetes)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 环境
 master 1: 10.70.1.28
     * node 1.1: 10.70.1.31
