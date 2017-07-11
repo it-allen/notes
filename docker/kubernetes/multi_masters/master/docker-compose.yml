@@ -7,9 +7,9 @@ services:
         command:
             - /hyperkube
             - apiserver
-            - --service-cluster-ip-range=10.70.1.100/24
-            - --address=0.0.0.0
-            - --etcd_servers=http://10.70.1.100:4001
+            - --service-cluster-ip-range=10.70.1.101/16
+            - --insecure-bind-address=0.0.0.0
+            - --etcd_servers=http://10.70.1.101:4001
             - --v=2
     controller:
         image: quay.io/coreos/hyperkube:v1.6.6_coreos.1

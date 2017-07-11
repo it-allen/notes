@@ -27,3 +27,9 @@ ssh-copy-id <username>@<host>
 # 或者
 cat ~/.ssh/id_rsa.pub | ssh <username>@<host> "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"
 ```
+
+# 环境变量
+## 打印所有环境变量
+```sh
+printenv
+```

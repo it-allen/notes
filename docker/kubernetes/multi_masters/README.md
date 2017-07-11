@@ -49,16 +49,6 @@ vim /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 ```
 
-# CA Certification
-用于无密登录
-* 中`master 1`上
-```sh
-mkdir -p /srv/kubernetes; cd /srv/kubernetes
-openssl genrsa -out ca.key 2048
-openssl req -x509 -new -nodes -key ca.key -subj "/CN=kube-system" -days 10000 -out ca.crt
-```
-这样在`~/srv_kubernetes`中将有 ca.crt/ca.key 两个文件
-
 # Install master node
 必需的软件
 * etcd
@@ -70,41 +60,11 @@ openssl req -x509 -new -nodes -key ca.key -subj "/CN=kube-system" -days 10000 -o
 * flannel
 * docker
 
-* 在`master 1`上
-```sh
-cat <<EOF | sudo tee server-openssl.cnf
-
-[req]
-req_extensions = v3_req
-distinguished_name = req_distinguished_name
-[req_distinguished_name]
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectAltName = @alt_names
-[alt_names]
-IP.1 = 127.0.0.1
-IP.2 = 10.70.1.32
-EOF
-
-
-openssl genrsa -out server.key 2048
-openssl req -new -key server.key -subj "/CN=10.70.1.32" -out server.csr -config server-openssl.cnf
-openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 10000 -extensions v3_req -extfile server-openssl.cnf
-openssl x509 -noout -text -in server.crt
-
-
-# copy to nodes and masters
-scp -r /srv/kubernetes 10.70.1.29:/srv
-scp -r /srv/kubernetes 10.70.1.31:/srv
-scp -r /srv/kubernetes 10.70.1.32:/srv
-```
-
 ### install etcd
 #### master 1
 
 ```sh
-export ETCD_VERSION=v3.0.7
+export ETCD_VERSION=v3.2.2
 cd /tmp
 curl -L https://github.com/coreos/etcd/releases/download/${ETCD_VERSION}/etcd-${ETCD_VERSION}-linux-amd64.tar.gz -o etcd-${ETCD_VERSION}-linux-amd64.tar.gz
 tar xzvf etcd-${ETCD_VERSION}-linux-amd64.tar.gz && cd etcd-${ETCD_VERSION}-linux-amd64
@@ -117,12 +77,12 @@ mkdir -p /var/lib/etcd/
 cat <<EOF | sudo tee /opt/etcd/config/etcd.conf
 ETCD_DATA_DIR=/var/lib/etcd
 ETCD_NAME=Master1
+ETCD_ADVERTISE_CLIENT_URLS=http://10.70.1.101:2379,http://10.70.1.101:4001
+ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379,http://0.0.0.0:4001
+ETCD_INITIAL_ADVERTISE_PEER_URLS=http://10.70.1.101:2380
 ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
-ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
 ETCD_INITIAL_CLUSTER_STATE=new
-ETCD_INITIAL_CLUSTER=Master1=http://10.70.1.28:2380,Master2=http://10.70.1.29:2380
-ETCD_INITIAL_ADVERTISE_PEER_URLS=http://10.70.1.28:2380
-ETCD_ADVERTISE_CLIENT_URLS=http://10.70.1.28:2379
+ETCD_INITIAL_CLUSTER=Master1=http://10.70.1.101:2380,http://${MASTER2}:2380
 ETCD_HEARTBEAT_INTERVAL=6000
 ETCD_ELECTION_TIMEOUT=30000
 ETCD_INITIAL_CLUSTER_TOKEN=etcd
@@ -201,14 +161,7 @@ systemctl daemon-reload && systemctl enable etcd && systemctl start etcd
 ```
 
 ### 安装kubernetes软件
-#### 直接装软件
-```sh
-cd /tmp
-curl -L 'https://github.com/kubernetes/kubernetes/releases/download/v1.6.6/kubernetes.tar.gz' -O kubernetes.tar.gz
-tar xvf kubernetes.tar.gz && cd kubernetes
-tar xf ./server/kubernetes-server-linux-amd64.tar.gz -C /opt/
-```
-
+#### 直接装软件(未测试)
 
 #### 利用Docker运行Kubernetes
 docker-compose.yml
@@ -243,9 +196,6 @@ services:
             - scheduler
             - --master=127.0.0.1:8080
             - --v=2
-```
-```sh
-
 ```
 
 
