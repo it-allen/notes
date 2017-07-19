@@ -33,3 +33,10 @@ cat ~/.ssh/id_rsa.pub | ssh <username>@<host> "mkdir -p ~/.ssh && cat >>  ~/.ssh
 ```sh
 printenv
 ```
+
+# 性能维护
+## dh 查询目录下文件大小
+* mac
+```sh
+dh -h -d 1
+```
