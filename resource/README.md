@@ -5,13 +5,22 @@
 * [《如何通俗易懂地理解卷积》](https://www.zhihu.com/question/22298352/answer/228543288?utm_source=wechat_session&utm_medium=social)
 * [《理解卷积》](https://www.zhihu.com/question/22298352)
 
+# 基本原理
+## 网络
+* [《实战无线网络分析（篇一）无线监听》](http://www.aneasystone.com/archives/2016/08/wireless-analysis-one-monitoring.html)
+
 # Machine learning
 ## tensorflow
 * [官方入门](https://www.tensorflow.org/tutorials)
 * [《中文 Tensorflow 学习笔记入门》 -- Jey Zhang](http://www.jeyzhang.com/tensorflow-learning-notes.html)
 
-## 算法
+## 教程系列
+* [Google 机器学习热爱者的自学指南](https://developers.google.cn/machine-learning/crash-course/)
+* [《零基础入门深度学习系列》](https://zybuluo.com/hanbingtao/note/541458)
+* [Stanford 深度学习教程](http://ufldl.stanford.edu/tutorial/)
+* [Stanford 机器学习笔记](https://yoyoyohamapi.gitbooks.io/mit-ml/content/)
 
+## 算法
 ### PCA
 * [《PCA的数学原理》](http://blog.codinglabs.org/articles/pca-tutorial.html)
 
