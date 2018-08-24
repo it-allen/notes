@@ -146,5 +146,163 @@ ping 的Request 比原生ICMP多了两个字段:
 - NAT网关: 改变IP
 
 ### 欧洲十国游型
+![simple](./images/simple_route.jpeg)
+* 每到一个新局域网，IP不变，MAC都要变
+* 这种方式的前提是，所有IP段是全局唯一的，不会冲突: 只能用下一种类型
 
 ### 玄奘西行型
+* NAT: 公网与私网的切换
+
+### POINTS
+* 离开局域网需要经过网关，即路由器的一个网口
+* 路由器是三层设备，拥有寻找下一跳的规则
+* 经过路由器后MAC会变，IP分两种情况，有的变有的不变(可能有IP段冲突)
+
+## 第九讲 路由协议
+### 如何配置路由？（路由表）
+一条路由规则至少包含以下信息
+* 目的网络: 到哪？
+* 出口设备：往哪个口发？
+* 下一跳网关：下个路由器的地址
+*可用route 或者 ip route 命令查询和配置*
+```sh
+ip route add 10.176.48.0/20 via 10.173.32.1 dev eth0
+# 表示要去10.176.48.0/20 这个网络要从 eth0 出去，经过 10.173.32.1
+```
+*此方法的核心是根据目的IP来配置路由*
+
+### 配置策略路由?
+可以根据不同的参数来配置转发策略，如
+* 源IP
+* 入口设备
+* TOS
+* etc
+```sh
+# 以下表示从两个网段来的包分别应用10和20两个路由表的规则
+ip rule add from 192.168.1.0/24 table 10
+ip rule add from 192.168.2.0/24 table 20
+# 以下表示下一跳有2个地方(100...和200...)， 权重分别为1和2
+ip route add default scope global \
+	nexthop via 100.100.100.1 weight 1 \
+	nexthop via 200.200.200.1 weight 2
+# 以下命令可以查看当前规则
+ip route list table main
+```
+以下为例子
+```sh
+# 创建一个路由表 chao
+echo 200 chao >> /etc/iproute2/rt_tables
+# 添加一条规则, 表示所有从192.168.1.101的查看chao这个路由表
+ip rule add from 192.168.1.101 table chao
+# 查看
+ip rule ls
+
+# 在chao 中添加规则
+ip route add default via 60.190.27.189 dev eth3 table chao
+ip route flush cache
+```
+
+### 动态路由算法: 最短路径算法
+#### 距离矢量路由算法(distance vector routing)
+* 基于 Bellman-Ford 算法
+* 基本思想：每个路由都保存一个路由表, 包含多行，每行表示一个路由器。每行包含两部分信息--目标路由器经过的下一跳、距离目标路由器的距离
+* 每个路由都知道全局的信息(有限)：根据邻居路由的表计算自己离目标的距离
+* 带来的问题
+	- 好消息传递快，坏消息传递慢
+	- 每次都要发送整个全局路由表
+#### 链路状态路由算法(link state routing)
+* 基于 Dijkstra 算法
+* 过程
+	- 路由A启动时，向邻居发送 say hello, 所有邻居都返回一个回复，除以2就是距离
+	- A将自己与邻居间的关系都广播出去，这样所有人都可以在本地构造一个完整的图
+	- 对该图应用 Dijkstra 算法, 找到最短路径
+
+#### 现行路由算法
+##### OSPF(Open Shortest Path First): 开放式最短路径优先
+* 基于链路状态协议,常用于数据中心，也称为内部网关协议(Interior Gateway protocol, IGP)
+* 通常会找到多个最短路径, 这些路径可用于负载均衡，常被称为等价路由
+
+##### BGP(Border Gateway Protocol): 外网路由协议
+* 基于距离矢量路由算法，使用路径矢量路由算法
+
+##### 为什么外网路由不采用链路状态算法？
+* 各国的政策等不一样，形成了一个个自治系统(AS, Autonomous System), 算法效果不好
+	- Stub AS: 对外只有一个连接, 通常为个人或者小公司网络，不传输其它AS包
+	- Multihomed AS: 有多个连接连接到其他的AS，但大多数拒绝传输其它AS包, 如大公司网络
+	- Transit AS: 有多个连接到其它AS网络，并帮助其它AS传输。如主干网
+* AS 数量有限，即便全部发送也不会有太大问题
+
+## 第十讲 UDP协议
+### UDP vs. TCP
+* TCP 提供可靠交付; UDP 继承了IP包的特性：不保证不丢失，不保证顺序到达
+* TCP 面向字节流; UDP 面向数据报
+* TCP 有拥塞控制; UDP 不提供
+* TCP 有状态
+### UDP
+![UDP header](./images/udp_header.jpeg)
+#### UDP 特点
+* 沟通简单
+* 轻信他人：
+* 愣头青，做事不权变
+
+#### UDP 应用场景
+* 需要资源少，在网络情况较好的内网，或者对于丢包不敏感的应用, 如DHCP, TFTP等
+* 不需要一对一建立连接，可以广播的应用
+* 需要处理速度快，时延低，可以容忍少数丢包，但要求即便网络拥塞也继续发送的场景。
+
+#### 基于UDP的常用场景
+* QUIC(Quick UDP Internet Connections, 快速UDP互联网连接)
+* 流媒体协议: RTMP(直播)
+* 实时游戏
+* IoT 物联网
+* 移动通信：经常断线或者切网，用TCP维护会是个大麻烦
+
+## 第十一讲 TCP协议(上)
+![TCP header](./images/tcp_header.jpeg)
+
+* 顺序问题: 稳重不乱
+* 丢包问题：承诺靠谱
+* 连接维护：有始有终
+* 流量控制：把握分寸
+* 拥塞控制：知进知退
+
+### TCP 三次握手
+![TCP handshake](./images/tcp_handshake.jpeg)
+* 为什么是三次？保证双方都有来有回
+* 三次握手的作用
+	- 建立连接
+	- 沟通序号问题：此序号通常4ms加1。为什么不都从1开始？这样可能中间连接断了，再连上时又从1发起的话，网络上的包可能还没消失(TTL)，会引起误会
+
+### TCP 四次挥手
+![TCP goodbye](./images/tcp_goodbye.jpeg)
+* FIN-WAIT2 状态：如果对方直接没有发FIN，则可能一直存在这个状态，TCP协议并没有对它进行定义，linux 中通常可以调整`tcp_fin_timeout`来设置一个超时时间
+
+![TCP states flow](./images/tcp_states.jpeg)
+
+## 第十二讲 TCP协议(下)
+### 累计确认或累计应答(cumulative acknowledgment): ACK x收到，说明所有序号小于x的包都收到了
+![TCP sender window](./images/tcp_sender_window.jpeg)
+![TCP receiver window](./images/tcp_receiver_window.jpeg)
+### 重传机制(自适应重传算法)
+* 估计往返时间(采样 RTT 的波动范围)
+* 超时间隔加倍: 避免拥塞
+### 流量控制问题
+* 设置窗口大小
+### 拥塞控制问题
+* 用于避免两种现象: 包丢失和超时重传, 开始时用指数性增长(慢启动)的方式试探
+* 问题: 1. 丢包并不代表满负荷了；2. 拥塞控制等到中间设备满了后才发生丢包，降低速度，已经晚了(应该只填通道)
+	- 解决方案: TCP BBR 拥塞算法
+
+## 第十三讲 套接字socket
+### TCP socket 编程
+![TCP socket](./images/tcp_socket.jpeg)
+### UDP socket 编程
+![UDP socket](./images/udp_socket.jpeg)
+
+![Socket queue](./images/socket_queue.jpeg)
+![socket with process](./images/socket_with_process.jpeg)
+![socket with thread](./images/socket_with_threads.jpeg)
+
+![epoll flow](./images/epoll_flow.jpeg)
+*epoll被称为解决 C10K 问题的利器*
+
