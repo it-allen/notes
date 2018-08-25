@@ -306,3 +306,39 @@ ip route flush cache
 ![epoll flow](./images/epoll_flow.jpeg)
 *epoll被称为解决 C10K 问题的利器*
 
+## 第十四讲 HTTP协议
+![http structure](./images/http_header.jpeg)
+![http response](./images/http_response.jpeg)
+
+### HTTP2.0 vs HTTP1.1
+* HTTP 1.1 在应用层以纯文本形式通信，每次都要带完整的HTTP头，在实时和并发性上都有问题
+* HTTP 2.0 对HTTP头进行了压缩，将原来需要带的Key-Value 压缩成只传索引。另外，将一个TCP连接切分成多个流，每个流有自己的ID，
+
+### QUIC
+* 自定义连接机制: 以自己维护的ID标识连接，不需要向TCP一样随时重连
+* 自定义重传机制
+![tcp vs quic with retransmit](./images/tcp_vs_quic_resend.jpeg)
+* 无阻塞的多路复用: 分成多个 stream 相互不影响
+* 自定义流量控制
+
+
+### POINTS
+* HTTP 2.0 通过头压缩、分帧、二进制编码、多路复用等技术提升性能
+* QUIC 基于UDP自定义类似于TCP的连接、重试、多路复用、流量控制技术，进一步提升性能
+
+## 第十五讲 HTTPS 协议
+### 加密
+* 对称加密: 加解密的密钥是一样的
+* 非对称加密：加解密用的密钥分为公钥(公开)和私钥(私有)，但效率要低很多
+
+### 为什么不直接用对称加密呢？
+* 需要交换密钥，这个过程可能又是不安全的
+### 非对称加密要用于交换对称加密的密钥
+* HTTPS 协议就是这么做的
+### 非对称加密的公钥又如何分发呢？
+* 放在官网上或者建立连接时传递给对方？ 无法鉴定提供公钥的对方是否是真的
+### 证书：权威部门对公钥的凭证，采用层层认证的方式(类似于DNS)，最终会指向到root CA(全球只有几家), 一般只有2层，当前层证书如果本地无法解析(系统内没有这个CA)，则认证失败
+* 过程可[参考](https://www.jianshu.com/p/e767a4e9252e)
+
+### HTTPS 工作模式
+![HTTPS flow](./images/https_flow.jpeg)
