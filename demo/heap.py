@@ -37,7 +37,7 @@ class Heap:
 		return ele
 
 if __name__ == "__main__":
-	src = [23, 1, 3, 42, 2, 5, 7, 3, 9]
+	src = [23, 1, 3, 42, 2, 5, 7, 3, 9, 36]
 	h = Heap()
 	for each in src:
 		h.push(each)
