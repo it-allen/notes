@@ -33,11 +33,13 @@
 	- 方法二：入大堆，再出堆 k 个。
 
 # leetcode
-[三数和](https://leetcode-cn.com/problems/3sum/description/)
+* [三数和](https://leetcode-cn.com/problems/3sum/description/)
 	- 方法一: [递归](./demo/3sum.py), O(n^2)
 	- 方法二：[分类](./demo/3sum_1.py), O(n^2)
 	- 方法三: [利用两数之和递推](./demo/3sum_2.py), O(nlogn)
 	- 方法四：[分治+两数之和](./demo/3sum_4.py), O(nlogn)
+    - *拓展*: [N数和](https://leetcode.com/problems/4sum/discuss/8545/Python-140ms-beats-100-and-works-for-N-sum-(Ngreater2))
+
 
 
 # TODO
