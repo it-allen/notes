@@ -11,6 +11,9 @@
 ## 最长回文子串
 [题目](https://leetcode.com/problems/longest-palindromic-substring/description/)
 
+## KMP 算法
+* [《从头到尾彻底理解KMP》](https://blog.csdn.net/v_july_v/article/details/7041827)
+
 # 路径算法
 ## 最短路径算法
 ### Dijsktra
