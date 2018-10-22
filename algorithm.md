@@ -14,6 +14,9 @@
 ## KMP 算法
 * [《从头到尾彻底理解KMP》](https://blog.csdn.net/v_july_v/article/details/7041827)
 
+## BM 算法
+## Sunday 算法
+
 # 路径算法
 ## 最短路径算法
 ### Dijsktra
