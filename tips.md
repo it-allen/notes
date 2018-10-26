@@ -1,6 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [language](#language)
+  - [C](#c)
+  - [Go](#go)
+    - [教程 & 文章](#%E6%95%99%E7%A8%8B--%E6%96%87%E7%AB%A0)
+- [linux](#linux)
+  - [进程间通信](#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1)
+    - [pipe](#pipe)
+- [protocol](#protocol)
+  - [http](#http)
+    - [http status](#http-status)
+- [database](#database)
+  - [mysql](#mysql)
+    - [MySQL索引优化分析](#mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%88%86%E6%9E%90)
+    - [MySQL-索引](#mysql-%E7%B4%A2%E5%BC%95)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # language
 ## C
 * "||" 操作最终的值是bool(0/1), 不像 python 的 or 那样可以将短路运算的值返回
+
+## Go
+### 教程 & 文章
+* [《Go入门指南》](http://wiki.jikexueyuan.com/project/the-way-to-go/)
 
 # linux
 ## 进程间通信

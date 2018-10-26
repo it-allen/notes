@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [第三方参考](#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8F%82%E8%80%83)
+- [排序](#%E6%8E%92%E5%BA%8F)
+  - [堆排序](#%E5%A0%86%E6%8E%92%E5%BA%8F)
+- [子串匹配](#%E5%AD%90%E4%B8%B2%E5%8C%B9%E9%85%8D)
+  - [最长回文子串](#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2)
+  - [KMP 算法](#kmp-%E7%AE%97%E6%B3%95)
+  - [BM 算法](#bm-%E7%AE%97%E6%B3%95)
+  - [Sunday 算法](#sunday-%E7%AE%97%E6%B3%95)
+- [路径算法](#%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95)
+  - [最短路径算法](#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95)
+    - [Dijsktra](#dijsktra)
+- [动态规划](#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92)
+  - [背包问题](#%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98)
+- [思考题](#%E6%80%9D%E8%80%83%E9%A2%98)
+- [leetcode](#leetcode)
+- [TODO](#todo)
+  - [无锁队列](#%E6%97%A0%E9%94%81%E9%98%9F%E5%88%97)
+  - [MPI](#mpi)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 第三方参考
 [排序算法演示](https://visualgo.net/zh/sorting)
 [笔记](https://github.com/qiwsir/algorithm)
